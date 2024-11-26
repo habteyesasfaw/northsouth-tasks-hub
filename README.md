@@ -1,6 +1,4 @@
-Here’s a polished and professional `README.md` tailored for your **Mentory Developer Assignment** project hosted in the `northsouth-tasks-hub` repository:  
 
----
 
 # **NorthSouth Tasks Hub**  
 A collaborative task management platform for creating, organizing, and sharing task lists with users. This full-stack web application is designed to demonstrate modern web development practices using **React**, **Laravel**, **PostgreSQL**, and **Docker**.  
