@@ -28,6 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     //     });
     // });
 
+
     // Log out the user and invalidate the token
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 });
+
+
+
