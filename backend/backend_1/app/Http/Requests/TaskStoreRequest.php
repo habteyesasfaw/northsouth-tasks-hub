@@ -17,7 +17,7 @@ class TaskStoreRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => 'required|in:pending,completed',
+            'status' => 'required|in:pending,completed,approval',
             'task_list_id' => 'required|exists:task_lists,id', // Ensure the task_list_id exists in the task_lists table
         ];
     }
