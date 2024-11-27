@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../../services/backendApiHelper';
-
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 const SignUp: React.FC = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,16 +28,21 @@ const SignUp: React.FC = () => {
 
     try {
       const result = register(formData);
-      setSuccessMessage('Registration successful!');
+      toast.success('Registration successful!');
+      setTimeout(() => {
+        navigate(-1);
+      }, 5000);
       console.log('Registered User:', result);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed');
+      toast.error(err.response?.data?.message || 'Registration failed');
       console.error('Registration Error:', err);
     }
   };
 
   return (
     <>
+            <ToastContainer />
+
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">

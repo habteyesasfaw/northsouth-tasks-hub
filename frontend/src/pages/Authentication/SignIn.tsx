@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../services/backendApiHelper';
+import { toast, ToastContainer } from 'react-toastify';
 
 const SignIn: React.FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -25,7 +26,7 @@ const SignIn: React.FC = () => {
       // Navigate to a dashboard or home page after successful login
       navigate('/');
     } catch (err: any) {
-      setError(
+      toast.error(
         err.response?.data?.message || 'Login failed. Please try again.',
       );
       console.error('Login Error:', err);
@@ -35,6 +36,8 @@ const SignIn: React.FC = () => {
   };
   return (
     <>
+                <ToastContainer />
+
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
