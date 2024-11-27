@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { register } from '../../services/BackendApiHelper';
+import { register } from '../../services/backendApiHelper';
 
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({
