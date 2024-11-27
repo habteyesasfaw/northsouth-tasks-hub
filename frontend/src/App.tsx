@@ -32,7 +32,7 @@ function App() {
 
   // Define route groups
   const publicRoutes = [
-    { path: '/auth/signin', element: <SignIn />, title: 'Signin' },
+    { path: '/login', element: <SignIn />, title: 'Signin' },
     { path: '/auth/signup', element: <SignUp />, title: 'Signup' },
   ];
 
@@ -261,7 +261,7 @@ export default App;
 //         />
 
 //         <Route
-//           path="/auth/signin"
+//           path="/login"
 //           element={
 //             <>
 //               <PageTitle title="Signin" />

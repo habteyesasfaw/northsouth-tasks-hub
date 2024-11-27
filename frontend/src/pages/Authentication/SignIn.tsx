@@ -5,20 +5,49 @@ import { toast, ToastContainer } from 'react-toastify';
 
 const SignIn: React.FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    const newErrors: { email?: string; password?: string } = {};
+
+    // Email validation
+    if (!formData.email) {
+      newErrors.email = 'Email is required.';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+
+    // Password validation
+    if (!formData.password) {
+      newErrors.password = 'Password is required.';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters long.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    // Clear errors for the current field
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: undefined }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
+    setErrors({});
 
+    // Validate form
+    if (!validateForm()) return;
+
+    setLoading(true);
     try {
       const user = await login(formData);
       console.log('Logged in user:', user);
@@ -36,7 +65,7 @@ const SignIn: React.FC = () => {
   };
   return (
     <>
-                <ToastContainer />
+      <ToastContainer />
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
@@ -216,6 +245,9 @@ const SignIn: React.FC = () => {
                         </g>
                       </svg>
                     </span>
+                    {errors.email && (
+                      <p className="text-red-600 text-sm">{errors.email}</p>
+                    )}
                   </div>
                 </div>
 
@@ -255,15 +287,21 @@ const SignIn: React.FC = () => {
                       </svg>
                     </span>
                   </div>
+                  {errors.password && (
+                    <p className="text-red-600 text-sm">{errors.password}</p>
+                  )}
                 </div>
 
                 <div className="mb-8">
-                  <input
+                  <button
                     onClick={handleSubmit}
                     type="button"
                     value="Sign In"
+                    disabled={loading}
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
+                  >
+                    {loading ? 'Signing in...' : 'Sign In'}
+                  </button>
                 </div>
 
                 <div className="mt-5 text-center">

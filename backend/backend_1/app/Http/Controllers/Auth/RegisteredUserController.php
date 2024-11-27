@@ -44,12 +44,12 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => [
                 'required',
-                'confirmed',
-                Password::min(8)
-                    ->mixedCase()
-                    ->letters()
-                    ->numbers()
-                    ->symbols()
+                'confirmed'
+                // Password::min(8)
+                //     ->mixedCase()
+                //     ->letters()
+                //     ->numbers()
+                //     ->symbols()
                 // ->uncompromised(),
             ],
         ]);
@@ -57,8 +57,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'is_admin' => 1,
-            'status' => 1
+
         ]);
         return response()->json([
             'data' => new UserResource($user),

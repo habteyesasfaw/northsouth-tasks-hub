@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../../services/backendApiHelper';
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const SignUp: React.FC = () => {
 
   return (
     <>
-            <ToastContainer />
+      <ToastContainer />
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
@@ -350,7 +350,7 @@ const SignUp: React.FC = () => {
                 <div className="mt-6 text-center">
                   <p>
                     Already have an account?{' '}
-                    <Link to="/auth/signin" className="text-primary">
+                    <Link to="/login" className="text-primary">
                       Sign in
                     </Link>
                   </p>
