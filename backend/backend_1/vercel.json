@@ -2,22 +2,18 @@
     "version": 2,
     "framework": null,
     "functions": {
-        "routes/api.php": {
-            "runtime": "vercel-php@0.6.1"
-        }
+        "api/index.php": { "runtime": "vercel-php@0.6.0" }
     },
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/routes/api.php"
+            "dest": "/api/index.php"
         }
     ],
-
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
-        "APP_URL": "https://api-northsouth-tasks-hub.vercel.app",
-        "APP_KEY": "base64:fax7xBina3JsFf+f/8yzkZqR8RAtC1lR2uJtCFdtQ99=",
+        "APP_URL": "https://yourproductionurl.com",
 
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
