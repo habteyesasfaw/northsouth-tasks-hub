@@ -12,6 +12,7 @@ class CreateTaskListsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name');
+            $table->text('description');
             $table->timestamps();
         });
     }
