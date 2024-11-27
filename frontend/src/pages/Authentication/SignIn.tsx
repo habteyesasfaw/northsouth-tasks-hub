@@ -1,23 +1,53 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../../services/BackendApiHelper';
 
 const SignIn: React.FC = () => {
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    try {
+      const user = await login(formData);
+      console.log('Logged in user:', user);
+
+      // Navigate to a dashboard or home page after successful login
+      navigate('/');
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message || 'Login failed. Please try again.',
+      );
+      console.error('Login Error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
-
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <Link className="mb-5.5 inline-block" to="/">
-              <h1 className=" text-center text-3xl font-bold text-graydark dark:text-white">
-              TaskHub
-            </h1>
+                <h1 className=" text-center text-3xl font-bold text-graydark dark:text-white">
+                  TaskHub
+                </h1>
               </Link>
 
               <p className="2xl:px-10">
-
-              Please sign in to the NorthSouth Tech Simple Task Management System for the Mentory Developer assignment.
+                Please sign in to the NorthSouth Tech Simple Task Management
+                System for the Mentory Developer assignment.
               </p>
 
               <span className="mt-15 inline-block">
@@ -160,6 +190,9 @@ const SignIn: React.FC = () => {
                     <input
                       type="email"
                       placeholder="Enter your email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -191,6 +224,9 @@ const SignIn: React.FC = () => {
                     <input
                       type="password"
                       placeholder="Enter Your Password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -220,13 +256,12 @@ const SignIn: React.FC = () => {
 
                 <div className="mb-8">
                   <input
-                    type="submit"
+                    onClick={handleSubmit}
+                    type="button"
                     value="Sign In"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   />
                 </div>
-
-               
 
                 <div className="mt-5 text-center">
                   <p>
