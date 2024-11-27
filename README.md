@@ -44,6 +44,13 @@ A collaborative task management platform for creating, organizing, and sharing t
 
 ---
 
+## **Requirements**
+Before starting, ensure your system meets the following requirements:
+- PHP >= 8.0
+- Composer
+- Node.js (with npm)
+- PostgreSQL
+
 ## **Setup Instructions**
 
 ### **Prerequisites**
@@ -162,4 +169,3 @@ backend/
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.  
 
 ---
-
