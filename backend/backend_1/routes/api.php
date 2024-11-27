@@ -17,15 +17,16 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
 
     // Fetch authenticated user details
-    Route::get('/user', [UserController::class, 'index']);
+    Route::apiResource('users', UserController::class);
+    // Route::get('/user', [UserController::class, 'index']);
 
     // Example of an admin-only route using role middleware (if you have this setup)
     // If using spatie/laravel-permission or any custom role middleware, make sure to adjust this.
-    Route::middleware('role:admin')->group(function () {
-        Route::get('/admin', function () {
-            return response()->json(['message' => 'Welcome, Admin!']);
-        });
-    });
+    // Route::middleware('role:admin')->group(function () {
+    //     Route::get('/admin', function () {
+    //         return response()->json(['message' => 'Welcome, Admin!']);
+    //     });
+    // });
 
     // Log out the user and invalidate the token
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
