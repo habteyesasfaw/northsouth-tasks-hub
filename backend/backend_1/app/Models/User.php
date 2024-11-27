@@ -47,4 +47,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relationship with TaskLists
+    public function taskLists()
+    {
+        return $this->hasMany(TaskList::class);
+    }
+
+    // Relationship with shared task lists
+    public function sharedTaskLists()
+    {
+        return $this->hasMany(TaskListShare::class, 'shared_with_user_id');
+    }
 }
