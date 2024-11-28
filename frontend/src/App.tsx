@@ -14,9 +14,11 @@ import PublicLayout from './layout/PublicLayout'; // Create a new PublicLayout
 import Tables from './pages/Tables';
 import Dashboard from './pages/Dashboard';
 import UserList from './pages/Usermanagement/UserList';
-import TasksList from './pages/TaskMangement/TasksList';
+import Tasks from './pages/TaskMangement/Task';
 import SharedWithMeList from './pages/SharedList/SharedWithMeList';
 import SharedWithOthersList from './pages/SharedList/SharedWithOthersList';
+import Task from './pages/TaskMangement/Task';
+import TaskList from './pages/TaskMangement/TaskList';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -39,7 +41,9 @@ function App() {
   const defaultRoutes = [
     { path: '/', element: <Dashboard />, title: 'Dashboard', index: true },
     { path: '/userlist', element: <UserList />, title: 'User List' },
-    { path: '/tasklist', element: <TasksList />, title: 'Task List' },
+    { path: '/task', element: <Task />, title: 'Task' },
+    { path: '/tasklist', element: <TaskList />, title: 'Task List' },
+
     {
       path: '/shared-with-me',
       element: <SharedWithMeList />,
