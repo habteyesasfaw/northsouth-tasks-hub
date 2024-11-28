@@ -13,6 +13,7 @@ class TaskListSeeder extends Seeder
         for ($i = 1; $i <= 10; $i++) {
             TaskList::create([
                 'name' => 'Task List ' . $i,
+                'description' => "description" . $i,
                 'user_id' => rand(1, 2), // Randomly assign task list to user 1 or user 2
             ]);
         }

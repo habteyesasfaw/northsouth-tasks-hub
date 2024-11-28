@@ -10,41 +10,69 @@ class ApiService {
     private axiosInstance: AxiosInstance;
 
     constructor() {
+        // CSRF token setup
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        const xsrfToken = document.cookie
+            .split("; ")
+            .find(row => row.startsWith("XSRF-TOKEN="))
+            ?.split("=")[1];
+
         this.axiosInstance = axios.create({
             baseURL: API_BASE_URL,
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
+                ...(csrfToken && { "X-CSRF-TOKEN": csrfToken }),
+                ...(xsrfToken && { "X-XSRF-TOKEN": decodeURIComponent(xsrfToken) }),
             },
-            withCredentials: true, // Ensure cookies are sent with requests
+            withCredentials: true,
         });
 
         this.setupInterceptors();
     }
 
-    /**
-     * Set up Axios interceptors for handling retries and errors.
-     */
     private setupInterceptors() {
-        // Configure automatic retries
         axiosRetry(this.axiosInstance, {
             retries: 3,
             retryCondition: (error) => error.response?.status === 429,
-            retryDelay: (retryCount) => Math.pow(2, retryCount) * 1000, // Exponential backoff
+            retryDelay: (retryCount) => Math.pow(2, retryCount) * 1000,
         });
 
-        // Handle request and response errors
         this.axiosInstance.interceptors.response.use(
             (response) => response,
             (error) => {
                 if (error.response?.status === 401) {
                     this.logout();
-                    window.location.href = "/login"; // Redirect to login on unauthorized
+                    window.location.href = "/login";
                 }
                 return Promise.reject(error);
             }
         );
     }
+
+    /**
+     * Set up Axios interceptors for handling retries and errors.
+     */
+    // private setupInterceptors() {
+    //     // Configure automatic retries
+    //     axiosRetry(this.axiosInstance, {
+    //         retries: 3,
+    //         retryCondition: (error) => error.response?.status === 429,
+    //         retryDelay: (retryCount) => Math.pow(2, retryCount) * 1000, // Exponential backoff
+    //     });
+
+    //     // Handle request and response errors
+    //     this.axiosInstance.interceptors.response.use(
+    //         (response) => response,
+    //         (error) => {
+    //             if (error.response?.status === 401) {
+    //                 this.logout();
+    //                 window.location.href = "/login"; // Redirect to login on unauthorized
+    //             }
+    //             return Promise.reject(error);
+    //         }
+    //     );
+    // }
 
     /**
      * Log in a user and store authentication details.
