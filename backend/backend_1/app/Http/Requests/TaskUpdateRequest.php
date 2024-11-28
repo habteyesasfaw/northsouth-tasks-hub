@@ -16,6 +16,7 @@ class TaskUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'task_list_id' => 'required|exists:task_lists,id',
             'description' => 'nullable|string',
             'status' => 'required|in:pending,completed',
         ];
