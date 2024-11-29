@@ -9,7 +9,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['task_list_id', 'description', 'is_complete'];
+    protected $fillable = ['name','task_list_id', 'description', 'status'];
 
     // Relationship with TaskList
     public function taskList()
