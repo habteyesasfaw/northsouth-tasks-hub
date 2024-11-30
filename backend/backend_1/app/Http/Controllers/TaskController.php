@@ -30,9 +30,9 @@ class TaskController extends Controller
     }
 
     // Store a new task in a specific task list
-    public function store(TaskStoreRequest $request, TaskList $taskList)
+    public function store(TaskStoreRequest $request)
     {
-        $task = $taskList->tasks()->create($request->validated());
+        $task = Task::create($request->validated());
         return new TaskResource($task);
     }
 
@@ -51,25 +51,15 @@ class TaskController extends Controller
      }
 
     // Update a specific task in a task list
-    public function update(TaskUpdateRequest $request, TaskList $taskList, Task $task)
+    public function update(TaskUpdateRequest $request, Task $task)
     {
-        // Ensure the task is part of the given task list
-        if ($taskList->id !== $task->task_list_id) {
-            return response()->json(['error' => 'Task not found in this task list'], 404);
-        }
-
-        $task->update($request->validated());
+        $task = Task::update($request->validated());
         return new TaskResource($task);
     }
 
     // Delete a specific task from a task list
-    public function destroy(TaskList $taskList, Task $task)
+    public function destroy(Task $task)
     {
-        // Ensure the task is part of the given task list
-        if ($taskList->id !== $task->task_list_id) {
-            return response()->json(['error' => 'Task not found in this task list'], 404);
-        }
-
         $task->delete();
         return response()->json(['message' => 'Task deleted successfully']);
     }
