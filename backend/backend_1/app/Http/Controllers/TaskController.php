@@ -22,7 +22,7 @@ class TaskController extends Controller
         $taskListIds = auth()->user()->taskLists()->pluck('id');
     
         // Fetch tasks for the authenticated user only, and filter by task list
-        $tasks = Task::whereIn('task_list_id', $taskListIds) // Ensure task belongs to one of the user's task lists
+        $tasks = Task::with(['taskList'])->whereIn('task_list_id', $taskListIds) // Ensure task belongs to one of the user's task lists
             ->paginate($perPage);
     
         // Return paginated data using the TaskResource collection
@@ -37,15 +37,18 @@ class TaskController extends Controller
     }
 
     // Show a specific task from a task list
-    public function show(TaskList $taskList, Task $task)
+    public function show(Tasklist $task)
     {
         // Ensure the task is part of the given task list
-        if ($taskList->id !== $task->task_list_id) {
-            return response()->json(['error' => 'Task not found in this task list'], 404);
-        }
+        // if ($task->id !== $task->task_list_id) {
+        //     return response()->json(['error' => 'Task not found in this task list'], 404);
+        // }
+        // Fetch tasks belonging to the given task list
+        $tasks = Task::where('task_list_id', $task->id)->paginate(10);
 
-        return new TaskResource($task);
-    }
+        // Return the paginated collection of tasks using TaskResource
+        return TaskResource::collection($tasks);
+     }
 
     // Update a specific task in a task list
     public function update(TaskUpdateRequest $request, TaskList $taskList, Task $task)

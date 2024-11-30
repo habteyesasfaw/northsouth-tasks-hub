@@ -4,11 +4,12 @@ export const REGISTER = "/register";
 export const LOGIN = "/login";
 
 // user List
-export const USER_LIST="/users"
+export const USER_LIST = "/users"
 
 // Task List
+export const TASK_URL = "/tasks"
 
-export const TASK_LIST= "/task-lists"
+export const TASK_LIST = "/task-lists"
 
 
 
